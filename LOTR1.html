@@ -4,13 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LOTR Collection Vault</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="LOTR Vault">
+    <meta name="theme-color" content="#5c4033">
+
     <style>
         :root {
             /* Garage Pro Light Theme - LOTR Edition */
             --bg-light: #f4f1ea;
             --card-bg: #ffffff;
             --text-main: #212529;
-            --royal-blue: #5c4033; /* Deep Earthy Brown for LOTR feel */
+            --royal-blue: #5c4033; /* Deep Earthy Brown */
             --success-green: #2d5a27; /* Forest Green */
             --error-red: #8b0000;
             --gold-border: #d4af37; /* Elven Gold */
@@ -65,6 +72,16 @@
         #modal { display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 90%; padding: 20px; z-index: 3000; text-align: center; border-radius: 8px; color: white; font-weight: bold; }
         .hidden-canvas { display: none; }
     </style>
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('Service Worker Registered'))
+            .catch(err => console.log('Service Worker Failed', err));
+        });
+      }
+    </script>
 </head>
 <body>
 
@@ -242,13 +259,17 @@
                     <div class="gallery-grid">${i.imgs.map(img => `<div class="photo-slot"><img src="${img}"></div>`).join('')}</div>
                     <h3 style="margin:15px 0 5px 0; color:var(--royal-blue);">${i.k1}</h3>
                     <div class="data-grid">
-                        <div><span class="data-label">Cat/Cond</span><b>${i.k2} / ${i.k3}</b></div>
-                        <div><span class="data-label">Price Paid</span><b>$${i.k5 || '0'}</b></div>
-                        <div><span class="data-label">Acquired</span><b>${i.k4 || 'N/A'}</b></div>
-                        <div><span class="data-label">Location</span><b>${i.k6 || 'N/A'}</b></div>
+                        <div class="data-block"><span class="data-label">Cat/Cond</span><span class="data-val">${i.k2} / ${i.k3}</span></div>
+                        <div class="data-block"><span class="data-label">Price Paid</span><span class="data-val">$${i.k5 || '0.00'}</span></div>
+                        <div class="data-block"><span class="data-label">Acquired</span><span class="data-val">${i.k4 || 'N/A'}</span></div>
+                        <div class="data-block"><span class="data-label">Location</span><span class="data-val">${i.k6 || 'N/A'}</span></div>
+                        <div class="data-block"><span class="data-label">Sold Price</span><span class="data-val">${i.k7 ? '$' + i.k7 : '---'}</span></div>
+                        <div class="data-block"><span class="data-label">Date Sold</span><span class="data-val">${i.k8 || '---'}</span></div>
                     </div>
-                    <button class="btn" style="min-height:40px; font-size:0.9rem; background:var(--gold-border);" onclick="vault.editItem(${i.id})">Inspect/Edit</button>
-                    <button class="btn" style="min-height:40px; font-size:0.9rem; background:var(--error-red); margin-top:5px;" onclick="vault.deleteItem(${i.id})">Discard</button>
+                    <div style="margin-top:15px; border-top: 1px solid #eee; padding-top:15px;">
+                        <button class="btn" style="min-height:40px; font-size:0.9rem; background:var(--gold-border); width:48%; display:inline-block;" onclick="vault.editItem(${i.id})">Edit</button>
+                        <button class="btn" style="min-height:40px; font-size:0.9rem; background:var(--error-red); width:48%; display:inline-block; float:right;" onclick="vault.deleteItem(${i.id})">Discard</button>
+                    </div>
                 </div>
             `).reverse().join('');
         },

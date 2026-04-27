@@ -1,0 +1,22 @@
+{
+  "short_name": "LOTRVault",
+  "name": "Lord of the Rings Collectibles Vault",
+  "icons": [
+    {
+      "src": "https://via.placeholder.com/192/5c4033/ffffff?text=LOTR",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "https://via.placeholder.com/512/5c4033/ffffff?text=LOTR",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./LOTR1.html",
+  "background_color": "#f4f1ea",
+  "display": "standalone",
+  "scope": "./",
+  "theme_color": "#5c4033",
+  "description": "Middle-earth Collection Inventory Management"
+}
